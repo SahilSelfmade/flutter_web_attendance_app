@@ -1,9 +1,11 @@
-import 'package:attendance_app/signupscreen.dart';
+import 'dart:ui';
+
+import 'package:attendance_app/main.dart';
 import 'package:attendance_app/tempscreen.dart';
 import 'package:attendance_app/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 import 'resources/auth_methods.dart';
 import 'widgets/text_field_input.dart';
 
@@ -16,8 +18,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   void dispose() {
@@ -33,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
     String res = await AuthMethods().loginUser(
         email: _emailController.text, password: _passwordController.text);
     if (res == 'success') {
-      Get.offAll(() => const TempScreen());
+      Get.offAll(() => const InitialClass());
       setState(() {
         _isLoading = false;
       });
@@ -69,6 +71,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 Flexible(
                   child: Container(),
                   flex: 2,
+                ),
+                Text(
+                  'Logo\nArea',
+                  style: GoogleFonts.oswald(
+                    textStyle: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
 
                 const SizedBox(
@@ -118,35 +129,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 Flexible(
                   child: Container(),
                   flex: 2,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      child: const Text('Dont have an Account?'),
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 8,
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Get.off(
-                          () => const SignUpScreen(),
-                        );
-                      },
-                      child: Container(
-                        child: const Text(
-                          'Sign Up',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 8,
-                        ),
-                      ),
-                    ),
-                  ],
                 ),
               ],
             ),

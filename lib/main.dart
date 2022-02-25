@@ -1,6 +1,5 @@
 import 'package:attendance_app/login_screen.dart';
 import 'package:attendance_app/register_employee.dart';
-import 'package:attendance_app/signupscreen.dart';
 import 'package:attendance_app/tempscreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -35,7 +34,9 @@ class InitialApp extends StatelessWidget {
     return GetMaterialApp(
       initialRoute: '/',
       getPages: [
-        GetPage(name: '/', page: () => const InitialClass()),
+        GetPage(
+            name: '/',
+            page: () => const RegisterEmployeeScreen(uid: '', email: '')),
       ],
     );
   }
@@ -63,23 +64,14 @@ class _InitialClassState extends State<InitialClass> {
     super.initState();
   }
 
-  void isUserRegistered(
-      String userID, String email, BuildContext context) async {
+  void isUserLoggedIN(String userID, String email, BuildContext context) async {
     await _firestore.collection("Businesses").doc(userID).get().then((value) {
-      if (!value.exists) {
-        Get.to(
-          () => RegisterEmployeeScreen(
-            uid: userID,
-            email: email.toString(),
-          ),
-        );
-      } else {
-        Get.off(
-          () => TempScreen(
-              userID: userID,
-              ),
-        );
-      }
+      Get.to(
+        () => RegisterEmployeeScreen(
+          uid: userID,
+          email: email.toString(),
+        ),
+      );
     });
   }
 
@@ -89,7 +81,7 @@ class _InitialClassState extends State<InitialClass> {
       stream: auth.authStateChanges(),
       builder: (ctx, userSnapshot) {
         if (userSnapshot.hasData) {
-          isUserRegistered(auth.currentUser!.uid.toString(),
+          isUserLoggedIN(auth.currentUser!.uid.toString(),
               auth.currentUser!.email.toString(), context);
           return const Scaffold(
             backgroundColor: Color(0xFFFFCC00),
