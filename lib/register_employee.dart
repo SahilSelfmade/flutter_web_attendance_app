@@ -1,3 +1,4 @@
+import 'package:attendance_app/home_screen.dart';
 import 'package:attendance_app/login_screen.dart';
 import 'package:attendance_app/utils/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -52,7 +53,7 @@ class _RegisterEmployeeScreenState extends State<RegisterEmployeeScreen> {
     super.dispose();
   }
 
-  registerUser(String? random) {
+  registerEmployee(String? random) {
     _user.doc(widget.uid).set({
       "address": _addressController.value.text,
       "clockin_employee": _clockInEmployeeController.value.text,
@@ -63,18 +64,21 @@ class _RegisterEmployeeScreenState extends State<RegisterEmployeeScreen> {
       "total_employees": _totalEmployeeController.value.text,
       "total_office_loc": _totalOfficeLocationController.value.text,
       "zip": _zipController.value.text,
-      "email": widget.email,
     }).then((value) {
-      Get.offAll(() => const InitialClass());
+      Get.off(
+        () => const HomePageScreen(),
+      );
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey,
       resizeToAvoidBottomInset: true,
       body: Center(
         child: Container(
+          color: Colors.white,
           width: MediaQuery.of(context).size.width * 0.5,
           padding: const EdgeInsets.symmetric(
             horizontal: 32.0,
@@ -83,14 +87,12 @@ class _RegisterEmployeeScreenState extends State<RegisterEmployeeScreen> {
           child: ListView(
             // crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Flexible(
-                child: Container(),
-                flex: 2,
+              const SizedBox(
+                height: 24,
               ),
-              // SVG Image
               Center(
                 child: Text(
-                  'Add\nUser',
+                  'Register Business',
                   style: GoogleFonts.oswald(
                     textStyle: const TextStyle(
                       fontSize: 24,
@@ -100,15 +102,11 @@ class _RegisterEmployeeScreenState extends State<RegisterEmployeeScreen> {
                 ),
               ),
               const SizedBox(
-                height: 64,
-              ),
-
-              const SizedBox(
                 height: 24,
               ),
               TextFieldInput(
                 hintText: 'Address',
-                textInputType: TextInputType.emailAddress,
+                textInputType: TextInputType.text,
                 textEditingController: _addressController,
               ),
               const SizedBox(
@@ -116,7 +114,9 @@ class _RegisterEmployeeScreenState extends State<RegisterEmployeeScreen> {
               ),
               TextFieldInput(
                 hintText: 'Clockin Employee',
-                textInputType: TextInputType.text,
+                textInputType: const TextInputType.numberWithOptions(
+                  decimal: true,
+                ),
                 textEditingController: _clockInEmployeeController,
               ),
               const SizedBox(
@@ -140,7 +140,7 @@ class _RegisterEmployeeScreenState extends State<RegisterEmployeeScreen> {
               ),
               TextFieldInput(
                 hintText: 'Owner Phone',
-                textInputType: TextInputType.text,
+                textInputType: TextInputType.number,
                 textEditingController: _ownerPhoneController,
               ),
               const SizedBox(
@@ -148,7 +148,7 @@ class _RegisterEmployeeScreenState extends State<RegisterEmployeeScreen> {
               ),
               TextFieldInput(
                 hintText: 'Total Employees',
-                textInputType: TextInputType.text,
+                textInputType: TextInputType.number,
                 textEditingController: _totalEmployeeController,
               ),
               const SizedBox(
@@ -156,7 +156,7 @@ class _RegisterEmployeeScreenState extends State<RegisterEmployeeScreen> {
               ),
               TextFieldInput(
                 hintText: 'Total Office Location',
-                textInputType: TextInputType.text,
+                textInputType: TextInputType.number,
                 textEditingController: _totalOfficeLocationController,
               ),
               const SizedBox(
@@ -173,26 +173,40 @@ class _RegisterEmployeeScreenState extends State<RegisterEmployeeScreen> {
               TextFieldInput(
                 hintText: 'Subscription Expiry',
                 textInputType: TextInputType.text,
-                textEditingController: _subscriptionExpiryController  ,
+                textEditingController: _subscriptionExpiryController,
               ),
               const SizedBox(
                 height: 24,
               ),
-
               InkWell(
                 onTap: () async {
                   if (_addressController.value.text != "" &&
                       _clockInEmployeeController.value.text != "" &&
                       _companyNameController.value.text != "" &&
                       _ownerNameController.value.text != "" &&
-                      _subscriptionExpiryController.value.text != "") {
+                      _subscriptionExpiryController.value.text != "" &&
+                      _totalEmployeeController != "" &&
+                      _totalOfficeLocationController != "" &&
+                      _zipController != "") {
                     setState(() {
                       isLoading = true;
                     });
-                    registerUser(null);
+                    registerEmployee(null);
+                    Get.snackbar(
+                      'Success',
+                      'Business Added Successfully.',
+                      isDismissible: true,
+                      maxWidth: MediaQuery.of(context).size.width * 0.5,
+                      backgroundColor: Colors.white,
+                      duration: const Duration(
+                        seconds: 2,
+                      ),
+                      snackPosition: SnackPosition.BOTTOM,
+                    );
+                    // Get.to
                   } else {
                     Get.snackbar(
-                      "Signup Failed",
+                      "Register Employee  Failed",
                       'All Fields are required.',
                       snackPosition: SnackPosition.BOTTOM,
                       isDismissible: true,
@@ -211,22 +225,23 @@ class _RegisterEmployeeScreenState extends State<RegisterEmployeeScreen> {
                     vertical: 12.0,
                   ),
                   decoration: ShapeDecoration(
-                    color: blueColor,
+                    color: Colors.black,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
                   child: Text(
                     'Submit'.toUpperCase(),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 18,
+                    ),
                   ),
                 ),
               ),
               const SizedBox(
                 height: 24,
-              ),
-              Flexible(
-                child: Container(),
-                flex: 2,
               ),
             ],
           ),

@@ -10,31 +10,6 @@ class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
   late String uid;
-//   // SIGNUP USER
-  Future<String> signUpUser({
-    required String email,
-    required String password,
-  }) async {
-    String res = "Some error occured";
-    try {
-      if (email.isNotEmpty || password.isNotEmpty) {
-        // register user
-        UserCredential cred = await _auth.createUserWithEmailAndPassword(
-            email: email, password: password);
-        print(cred.user!.uid);
-        // add user to database
-        // _fireStore.collection('Businesses').doc(cred.user!.uid).set({
-        //   // 'uid': cred.user!.uid,
-        //   // 'email': email,
-        // });
-
-        res = "Success";
-      }
-    } catch (err) {
-      res = err.toString();
-    }
-    return res;
-  }
 
   Future<String> loginUser({
     required String email,

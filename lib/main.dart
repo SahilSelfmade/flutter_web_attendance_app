@@ -1,3 +1,4 @@
+import 'package:attendance_app/home_screen.dart';
 import 'package:attendance_app/login_screen.dart';
 import 'package:attendance_app/register_employee.dart';
 import 'package:attendance_app/tempscreen.dart';
@@ -34,9 +35,7 @@ class InitialApp extends StatelessWidget {
     return GetMaterialApp(
       initialRoute: '/',
       getPages: [
-        GetPage(
-            name: '/',
-            page: () => const RegisterEmployeeScreen(uid: '', email: '')),
+        GetPage(name: '/', page: () => const InitialClass()),
       ],
     );
   }
@@ -66,12 +65,13 @@ class _InitialClassState extends State<InitialClass> {
 
   void isUserLoggedIN(String userID, String email, BuildContext context) async {
     await _firestore.collection("Businesses").doc(userID).get().then((value) {
-      Get.to(
-        () => RegisterEmployeeScreen(
-          uid: userID,
-          email: email.toString(),
-        ),
-      );
+      Get.to(() => const HomePageScreen());
+      // Get.to(
+      //   () => RegisterEmployeeScreen(
+      //     uid: userID,
+      //     email: email.toString(),
+      //   ),
+      // );
     });
   }
 
@@ -84,7 +84,7 @@ class _InitialClassState extends State<InitialClass> {
           isUserLoggedIN(auth.currentUser!.uid.toString(),
               auth.currentUser!.email.toString(), context);
           return const Scaffold(
-            backgroundColor: Color(0xFFFFCC00),
+            backgroundColor: Colors.grey,
             body: Center(
                 child: SizedBox(
               width: 60.0,

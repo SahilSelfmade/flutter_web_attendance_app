@@ -1,7 +1,5 @@
-import 'dart:ui';
-
+import 'package:attendance_app/home_screen.dart';
 import 'package:attendance_app/main.dart';
-import 'package:attendance_app/tempscreen.dart';
 import 'package:attendance_app/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -35,18 +33,77 @@ class _LoginScreenState extends State<LoginScreen> {
     String res = await AuthMethods().loginUser(
         email: _emailController.text, password: _passwordController.text);
     if (res == 'success') {
-      Get.offAll(() => const InitialClass());
+      setState(() {
+        _isLoading = false;
+        Get.snackbar(
+          'Login Successful',
+          'Click on Add Business Button to Add a Business',
+          isDismissible: true,
+          maxWidth: MediaQuery.of(context).size.width * 0.5,
+          duration: const Duration(
+            seconds: 2,
+          ),
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.white,
+        );
+      });
+      Get.offAll(const HomePageScreen());
+    } else if (_emailController.text.isEmpty ||
+        _passwordController.text.isEmpty) {
       setState(() {
         _isLoading = false;
       });
+      Get.snackbar(
+        'Login Failed',
+        'All fields are Required.',
+        isDismissible: true,
+        maxWidth: MediaQuery.of(context).size.width * 0.5,
+        backgroundColor: Colors.white,
+        duration: const Duration(
+          seconds: 2,
+        ),
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } else if (_passwordController.text.length < 6) {
+      setState(() {
+        _isLoading = false;
+      });
+      Get.snackbar(
+        'Login Failed',
+        'Password Length is too Short.',
+        isDismissible: true,
+        maxWidth: MediaQuery.of(context).size.width * 0.5,
+        backgroundColor: Colors.white,
+        duration: const Duration(
+          seconds: 2,
+        ),
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } else if (_emailController.text.isEmail != true) {
+      setState(() {
+        _isLoading = false;
+      });
+      Get.snackbar(
+        'Login Failed',
+        'Please Enter a Valid E-Mail.',
+        isDismissible: true,
+        maxWidth: MediaQuery.of(context).size.width * 0.5,
+        backgroundColor: Colors.white,
+        duration: const Duration(
+          seconds: 2,
+        ),
+        snackPosition: SnackPosition.BOTTOM,
+      );
     } else {
       setState(() {
         _isLoading = false;
       });
       Get.snackbar(
         'Login Failed',
-        'please try again',
+        'Wrong Credentials',
         isDismissible: true,
+        maxWidth: MediaQuery.of(context).size.width * 0.5,
+        backgroundColor: Colors.white,
         duration: const Duration(
           seconds: 2,
         ),
@@ -58,79 +115,85 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 208, 208, 208),
       body: SafeArea(
         child: Center(
-          child: Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 32.0,
-            ),
-            width: MediaQuery.of(context).size.width * 0.5,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Flexible(
-                  child: Container(),
-                  flex: 2,
-                ),
-                Text(
-                  'Logo\nArea',
-                  style: GoogleFonts.oswald(
-                    textStyle: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
+          child: Card(
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 32.0,
+              ),
+              width: MediaQuery.of(context).size.width * 0.5,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const SizedBox(
+                    height: 24,
                   ),
-                ),
-
-                const SizedBox(
-                  height: 64,
-                ),
-                // EMAIL FIELD
-                TextFieldInput(
-                  hintText: 'E-Mail',
-                  textInputType: TextInputType.emailAddress,
-                  textEditingController: _emailController,
-                ),
-                const SizedBox(
-                  height: 24,
-                ),
-                TextFieldInput(
-                  hintText: 'Password',
-                  isPass: true,
-                  textInputType: TextInputType.text,
-                  textEditingController: _passwordController,
-                ),
-                const SizedBox(
-                  height: 24,
-                ),
-                // LOGIN Button
-                InkWell(
-                  onTap: loginUser,
-                  child: Container(
-                    width: double.infinity,
-                    alignment: Alignment.center,
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 12.0,
-                    ),
-                    decoration: ShapeDecoration(
-                      color: blueColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4),
+                  Text(
+                    'Logo Area',
+                    style: GoogleFonts.oswald(
+                      textStyle: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                    child: const Text(
-                      'LOGIN',
+                  ),
+
+                  const SizedBox(
+                    height: 64,
+                  ),
+                  // EMAIL FIELD
+                  TextFieldInput(
+                    hintText: 'E-Mail',
+                    textInputType: TextInputType.emailAddress,
+                    textEditingController: _emailController,
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  TextFieldInput(
+                    hintText: 'Password',
+                    isPass: true,
+                    textInputType: TextInputType.text,
+                    textEditingController: _passwordController,
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  // LOGIN Button
+                  InkWell(
+                    onTap: loginUser,
+                    child: Container(
+                      width: double.infinity,
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 12.0,
+                      ),
+                      decoration: ShapeDecoration(
+                        color: Colors.black,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
+                      child: const Text(
+                        'LOGIN',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 18,
+                        ),
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 24,
-                ),
-                Flexible(
-                  child: Container(),
-                  flex: 2,
-                ),
-              ],
+                  const SizedBox(
+                    height: 24,
+                  ),
+
+                  // ),
+                ],
+              ),
             ),
           ),
         ),
