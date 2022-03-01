@@ -59,7 +59,7 @@ class _RegisterEmployeeScreenState extends State<RegisterEmployeeScreen> {
       "clockin_employee": _clockInEmployeeController.value.text,
       "company_name": _companyNameController.value.text,
       "owner_name": _ownerNameController.value.text,
-      "subscription_expiry": _subscriptionExpiryController.value.text,
+      "subscription_expiry": DateTime.now().add(Duration(days: 365)).toString(),
       "owner_phone": _ownerPhoneController.value.text,
       "total_employees": _totalEmployeeController.value.text,
       "total_office_loc": _totalOfficeLocationController.value.text,
@@ -73,177 +73,180 @@ class _RegisterEmployeeScreenState extends State<RegisterEmployeeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenW = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.grey,
       resizeToAvoidBottomInset: true,
       body: Center(
         child: Container(
           color: Colors.white,
-          width: MediaQuery.of(context).size.width * 0.5,
+          width: screenW < 1000 ? screenW * 0.95 : screenW * 0.4,
           padding: const EdgeInsets.symmetric(
             horizontal: 32.0,
           ),
           // width: MediaQuery.of(context).size.width * 0.8,
-          child: ListView(
-            // crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              const SizedBox(
-                height: 24,
-              ),
-              Center(
-                child: Text(
-                  'Register Business',
-                  style: GoogleFonts.oswald(
-                    textStyle: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+          child: SingleChildScrollView(
+            child: Column(
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                const SizedBox(
+                  height: 24,
                 ),
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              TextFieldInput(
-                hintText: 'Address',
-                textInputType: TextInputType.text,
-                textEditingController: _addressController,
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              TextFieldInput(
-                hintText: 'Clockin Employee',
-                textInputType: const TextInputType.numberWithOptions(
-                  decimal: true,
-                ),
-                textEditingController: _clockInEmployeeController,
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              TextFieldInput(
-                hintText: 'Company Name',
-                textInputType: TextInputType.text,
-                textEditingController: _companyNameController,
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              TextFieldInput(
-                hintText: 'Owner Name',
-                textInputType: TextInputType.text,
-                textEditingController: _ownerNameController,
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              TextFieldInput(
-                hintText: 'Owner Phone',
-                textInputType: TextInputType.number,
-                textEditingController: _ownerPhoneController,
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              TextFieldInput(
-                hintText: 'Total Employees',
-                textInputType: TextInputType.number,
-                textEditingController: _totalEmployeeController,
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              TextFieldInput(
-                hintText: 'Total Office Location',
-                textInputType: TextInputType.number,
-                textEditingController: _totalOfficeLocationController,
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              TextFieldInput(
-                hintText: 'Zip',
-                textInputType: TextInputType.text,
-                textEditingController: _zipController,
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              TextFieldInput(
-                hintText: 'Subscription Expiry',
-                textInputType: TextInputType.text,
-                textEditingController: _subscriptionExpiryController,
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              InkWell(
-                onTap: () async {
-                  if (_addressController.value.text != "" &&
-                      _clockInEmployeeController.value.text != "" &&
-                      _companyNameController.value.text != "" &&
-                      _ownerNameController.value.text != "" &&
-                      _subscriptionExpiryController.value.text != "" &&
-                      _totalEmployeeController != "" &&
-                      _totalOfficeLocationController != "" &&
-                      _zipController != "") {
-                    setState(() {
-                      isLoading = true;
-                    });
-                    registerEmployee(null);
-                    Get.snackbar(
-                      'Success',
-                      'Business Added Successfully.',
-                      isDismissible: true,
-                      maxWidth: MediaQuery.of(context).size.width * 0.5,
-                      backgroundColor: Colors.white,
-                      duration: const Duration(
-                        seconds: 2,
-                      ),
-                      snackPosition: SnackPosition.BOTTOM,
-                    );
-                    // Get.to
-                  } else {
-                    Get.snackbar(
-                      "Register Employee  Failed",
-                      'All Fields are required.',
-                      snackPosition: SnackPosition.BOTTOM,
-                      isDismissible: true,
-                      duration: const Duration(seconds: 2),
-                      icon: const Icon(
-                        Icons.dangerous,
-                        color: Colors.red,
-                      ),
-                    );
-                  }
-                },
-                child: Container(
-                  width: double.infinity,
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 12.0,
-                  ),
-                  decoration: ShapeDecoration(
-                    color: Colors.black,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
+                Center(
                   child: Text(
-                    'Submit'.toUpperCase(),
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 18,
+                    'Register Business',
+                    style: GoogleFonts.oswald(
+                      textStyle: const TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-            ],
+                const SizedBox(
+                  height: 24,
+                ),
+                TextFieldInput(
+                  hintText: 'Address',
+                  textInputType: TextInputType.text,
+                  textEditingController: _addressController,
+                ),
+                const SizedBox(
+                  height: 24,
+                ),
+                TextFieldInput(
+                  hintText: 'Clockin Employee',
+                  textInputType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                  ),
+                  textEditingController: _clockInEmployeeController,
+                ),
+                const SizedBox(
+                  height: 24,
+                ),
+                TextFieldInput(
+                  hintText: 'Company Name',
+                  textInputType: TextInputType.text,
+                  textEditingController: _companyNameController,
+                ),
+                const SizedBox(
+                  height: 24,
+                ),
+                TextFieldInput(
+                  hintText: 'Owner Name',
+                  textInputType: TextInputType.text,
+                  textEditingController: _ownerNameController,
+                ),
+                const SizedBox(
+                  height: 24,
+                ),
+                TextFieldInput(
+                  hintText: 'Owner Phone',
+                  textInputType: TextInputType.number,
+                  textEditingController: _ownerPhoneController,
+                ),
+                const SizedBox(
+                  height: 24,
+                ),
+                TextFieldInput(
+                  hintText: 'Total Employees',
+                  textInputType: TextInputType.number,
+                  textEditingController: _totalEmployeeController,
+                ),
+                const SizedBox(
+                  height: 24,
+                ),
+                TextFieldInput(
+                  hintText: 'Total Office Location',
+                  textInputType: TextInputType.phone,
+                  textEditingController: _totalOfficeLocationController,
+                ),
+                const SizedBox(
+                  height: 24,
+                ),
+                TextFieldInput(
+                  hintText: 'Zip',
+                  textInputType: TextInputType.text,
+                  textEditingController: _zipController,
+                ),
+                const SizedBox(
+                  height: 24,
+                ),
+                TextFieldInput(
+                  hintText: 'Subscription Expiry',
+                  textInputType: TextInputType.text,
+                  textEditingController: _subscriptionExpiryController,
+                ),
+                const SizedBox(
+                  height: 24,
+                ),
+                InkWell(
+                  onTap: () async {
+                    if (_addressController.text != "" &&
+                        _clockInEmployeeController.text != "" &&
+                        _companyNameController.text != "" &&
+                        _ownerNameController.text != "" &&
+                        _subscriptionExpiryController.text != "" &&
+                        _totalEmployeeController.text != "" &&
+                        _totalOfficeLocationController.text != "" &&
+                        _zipController.text != "") {
+                      setState(() {
+                        isLoading = true;
+                      });
+                      registerEmployee(null);
+                      Get.snackbar(
+                        'Success',
+                        'Business Added Successfully.',
+                        isDismissible: true,
+                        maxWidth: MediaQuery.of(context).size.width * 0.5,
+                        backgroundColor: Colors.white,
+                        duration: const Duration(
+                          seconds: 2,
+                        ),
+                        snackPosition: SnackPosition.BOTTOM,
+                      );
+                      // Get.to
+                    } else {
+                      Get.snackbar(
+                        "Register Employee  Failed",
+                        'All Fields are required.',
+                        snackPosition: SnackPosition.BOTTOM,
+                        isDismissible: true,
+                        duration: const Duration(seconds: 2),
+                        icon: const Icon(
+                          Icons.dangerous,
+                          color: Colors.red,
+                        ),
+                      );
+                    }
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 12.0,
+                    ),
+                    decoration: ShapeDecoration(
+                      color: Colors.black,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ),
+                    child: Text(
+                      'Submit'.toUpperCase(),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 24,
+                ),
+              ],
+            ),
           ),
         ),
       ),

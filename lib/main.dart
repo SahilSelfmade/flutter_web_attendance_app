@@ -33,9 +33,17 @@ class InitialApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      title: 'Attendance Web Admin App',
       initialRoute: '/',
       getPages: [
         GetPage(name: '/', page: () => const InitialClass()),
+        GetPage(name: '/hom', page: () => const HomePageScreen()),
+        GetPage(
+            name: '/reg',
+            page: () => const RegisterEmployeeScreen(
+                  uid: "",
+                  email: "",
+                )),
       ],
     );
   }
@@ -66,12 +74,6 @@ class _InitialClassState extends State<InitialClass> {
   void isUserLoggedIN(String userID, String email, BuildContext context) async {
     await _firestore.collection("Businesses").doc(userID).get().then((value) {
       Get.to(() => const HomePageScreen());
-      // Get.to(
-      //   () => RegisterEmployeeScreen(
-      //     uid: userID,
-      //     email: email.toString(),
-      //   ),
-      // );
     });
   }
 

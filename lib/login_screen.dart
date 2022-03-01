@@ -114,6 +114,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenW = MediaQuery.of(context).size.width;
+
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 208, 208, 208),
       body: SafeArea(
@@ -123,7 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
               padding: const EdgeInsets.symmetric(
                 horizontal: 32.0,
               ),
-              width: MediaQuery.of(context).size.width * 0.5,
+              width: screenW < 1000 ? screenW * 0.95 : screenW * 0.4,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
