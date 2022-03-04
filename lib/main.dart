@@ -1,6 +1,8 @@
+import 'package:attendance_app/home_page.dart';
 import 'package:attendance_app/home_screen.dart';
 import 'package:attendance_app/login_screen.dart';
 import 'package:attendance_app/register_employee.dart';
+import 'package:attendance_app/screens/crud/business_detail_main.dart';
 import 'package:attendance_app/tempscreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -36,14 +38,8 @@ class InitialApp extends StatelessWidget {
       title: 'Attendance Web Admin App',
       initialRoute: '/',
       getPages: [
-        GetPage(name: '/', page: () => const InitialClass()),
-        GetPage(name: '/hom', page: () => const HomePageScreen()),
-        GetPage(
-            name: '/reg',
-            page: () => const RegisterEmployeeScreen(
-                  uid: "",
-                  email: "",
-                )),
+        GetPage(name: '/', page: () => const LoginScreen()),
+       
       ],
     );
   }
@@ -73,7 +69,7 @@ class _InitialClassState extends State<InitialClass> {
 
   void isUserLoggedIN(String userID, String email, BuildContext context) async {
     await _firestore.collection("Businesses").doc(userID).get().then((value) {
-      Get.to(() => const HomePageScreen());
+      Get.to(() => const HomePage());
     });
   }
 
@@ -97,11 +93,12 @@ class _InitialClassState extends State<InitialClass> {
               ),
             )),
           );
-        } else if (userSnapshot.hasError) {
-          return const CircularProgressIndicator(
-            color: Colors.white,
-          );
-        }
+        } 
+        //else if (userSnapshot.hasError) {
+        //   return const CircularProgressIndicator(
+        //     color: Colors.white,
+        //   );
+        // }
         return const LoginScreen();
       },
     );

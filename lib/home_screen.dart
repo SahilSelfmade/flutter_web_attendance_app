@@ -1,6 +1,7 @@
 import 'package:attendance_app/login_screen.dart';
 import 'package:attendance_app/register_employee.dart';
 import 'package:attendance_app/resources/auth_methods.dart';
+import 'package:attendance_app/screens/crud/business_detail_main.dart';
 import 'package:attendance_app/utils/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
   Widget build(BuildContext context) {
     final screenW = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 208, 208, 208),
+      backgroundColor: Colors.black,
       body: SafeArea(
         child: Center(
           child: Card(
@@ -70,6 +71,38 @@ class _HomePageScreenState extends State<HomePageScreen> {
                       ),
                       child: const Text(
                         'Add a Business',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      print('View Businesses Button Pressed');
+                      Get.to(
+                        () => const BusinessDetails(),
+                      );
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 12.0,
+                      ),
+                      decoration: ShapeDecoration(
+                        color: Colors.black,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
+                      child: const Text(
+                        'View Businesses',
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w500,

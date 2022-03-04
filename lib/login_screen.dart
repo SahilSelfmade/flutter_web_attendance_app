@@ -1,3 +1,4 @@
+import 'package:attendance_app/home_page.dart';
 import 'package:attendance_app/home_screen.dart';
 import 'package:attendance_app/main.dart';
 import 'package:attendance_app/utils/colors.dart';
@@ -47,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
           backgroundColor: Colors.white,
         );
       });
-      Get.offAll(const HomePageScreen());
+      Get.offAll(const HomePage());
     } else if (_emailController.text.isEmpty ||
         _passwordController.text.isEmpty) {
       setState(() {
@@ -117,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final screenW = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 208, 208, 208),
+      backgroundColor: Colors.black,
       body: SafeArea(
         child: Center(
           child: Card(

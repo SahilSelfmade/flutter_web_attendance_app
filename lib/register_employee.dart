@@ -75,7 +75,7 @@ class _RegisterEmployeeScreenState extends State<RegisterEmployeeScreen> {
   Widget build(BuildContext context) {
     final screenW = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Colors.grey,
+      backgroundColor: Colors.black,
       resizeToAvoidBottomInset: true,
       body: Center(
         child: Container(
